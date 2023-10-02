@@ -1,24 +1,21 @@
+
 const express = require('express');
+const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
+const authRouter = require('./Routes/Admin/auth');
+const productsRouter = require('./Routes/Admin/products'); 
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send(`
-    <div>
-        <form method="POST">
-            <input name="email" placeholder="email" />
-            <input name="password" placeholder="password" />
-            <input name="passwordConfirmation" placeholder="password confirmation" />
-            <button>Sign Up</button>
-        </form>
-    </div>
-    `);
-});
-
-app.post('/', (req, res) => {
-    res.send('Account Created!');
-});
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(cookieSession({
+    keys: ['dsjfhjsfslakdjssdas']
+}));
+app.use(authRouter);
+app.use(productsRouter);
 
 app.listen(3000, () => {
     console.log('listening');
 });
+
